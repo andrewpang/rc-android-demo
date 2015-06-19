@@ -12,9 +12,22 @@
     <Button android:id="@+id/button3" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:text="Account" android:layout_toRightOf="@+id/button2" />
     <Button android:id="@+id/button4" android:layout_height="wrap_content"
-        android:layout_width="wrap_content" android:text="RingOut" android:layout_below="@+id/button1" />
+        android:layout_width="wrap_content" android:text="RingOut" android:layout_below="@+id/button1"/>
     <Button android:id="@+id/button5" android:layout_height="wrap_content"
-        android:layout_width="wrap_content" android:text="Call Log" android:layout_below="@+id/button2" android:layout_toRightOf="@+id/button4" />
+        android:layout_width="wrap_content" android:text="Call Log" android:layout_below="@+id/button2"
+        android:layout_toRightOf="@+id/button4"/>
+    <Button android:id="@+id/button6" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:text="SMS" android:layout_below="@+id/button2"
+        android:layout_toRightOf="@+id/button5" />
+    <Button android:id="@+id/button7" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:text="Msg Store" android:layout_below="@+id/button4" />
+    <EditText android:id="@+id/fromMessage" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="From" android:layout_below="@+id/button7" />
+    <EditText android:id="@+id/toMessage" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="To" android:layout_below="@+id/fromMessage" />
+    <EditText android:id="@+id/SMSMessage" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="Message" android:layout_below="@+id/toMessage" />
+
     <TextView android:id="@+id/textView1" android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_below="@+id/button4" />
+        android:layout_height="wrap_content" android:layout_below="@+id/SMSMessage" />
 </RelativeLayout>

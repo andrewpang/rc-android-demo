@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -31,9 +32,11 @@ import java.util.logging.SimpleFormatter;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse,
-        OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse, CallLog.CallLogResponse {
+        OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse, CallLog.CallLogResponse,
+        SMS.SMSResponse {
 
-    Button button1, button2, button3, button4, button5;
+    Button button1, button2, button3, button4, button5, button6;
+    EditText fromText, toText, messageText;
     String access_token = "";
 
     public static void log(String message) {
@@ -75,6 +78,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         button4.setOnClickListener(this);
         button5 = (Button) findViewById(R.id.button5);
         button5.setOnClickListener(this);
+        button6 = (Button) findViewById(R.id.button6);
+        button6.setOnClickListener(this);
+        fromText = (EditText) findViewById(R.id.fromMessage);
+        toText = (EditText) findViewById(R.id.toMessage);
+        messageText = (EditText) findViewById(R.id.SMSMessage);
     }
 
     @Override
@@ -129,6 +137,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 myCallLog.delegate = this;
                 myCallLog.execute(access_token);
                 break;
+
+            case R.id.button6:
+                SMS mySMS = new SMS();
+                mySMS.delegate = this;
+                String[] textStrings = {access_token, fromText.getText().toString(),
+                        toText.getText().toString(), messageText.getText().toString()};
+                mySMS.execute(textStrings);
+                break;
         }
     }
 
@@ -154,6 +170,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
     }
 
     public void CallLogProcessFinish(String output){
+        TextView TextView1 = (TextView) findViewById(R.id.textView1);
+        TextView1.setText(output);
+    }
+
+    public void SMSProcessFinish(String output){
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(output);
     }
