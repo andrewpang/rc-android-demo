@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 
-public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse {
+public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse, OAuth.OAuthResponse {
 
     Button button1, button2;
 
@@ -87,6 +87,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 String secret = "1YRoPu64TeCOe_ZJy3ggLwGg-QDQd6QaWpSyIT8AxmjA";
 
                 OAuth o = new OAuth();
+                o.delegate = this;
                 String access_token = "";
                 try {
                     o.OAuthorizer(grantType, username, password, key, secret);
@@ -111,11 +112,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
     }
 
     public void versionProcessFinish(String output) {
-        Log.d("Hey", output);
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(output);
     }
 
+    public void OAuthProcessFinish(String output) {
+        TextView TextView1 = (TextView) findViewById(R.id.textView1);
+        TextView1.setText(output);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

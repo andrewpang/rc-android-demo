@@ -15,6 +15,10 @@ import javax.net.ssl.HttpsURLConnection;
  */
 
 public class Version extends AsyncTask<Void, Void, String> {
+
+    public interface VersionResponse {
+        void versionProcessFinish(String result);
+    }
     public VersionResponse delegate = null;
 
     protected String doInBackground(Void... params) {
@@ -75,11 +79,7 @@ public class Version extends AsyncTask<Void, Void, String> {
     }
 
     protected void onProgressUpdate(String... progress) {
-        //setProgress(progress[0]);
     }
 
-    public interface VersionResponse {
-        void versionProcessFinish(String result);
-    }
 }
 
