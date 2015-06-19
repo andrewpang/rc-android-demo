@@ -2,6 +2,7 @@ package com.ringcentral.androidsdk;
 
 import android.os.AsyncTask;
 import android.util.Base64;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -97,7 +98,7 @@ public class OAuth {
                 if (httpConn != null)
                   httpConn.disconnect();
             }
-            System.out.println(accessToken);
+            Log.d("AccessToken", accessToken);
             return accessToken;
 
         }

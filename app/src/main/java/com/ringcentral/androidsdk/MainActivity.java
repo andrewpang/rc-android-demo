@@ -30,9 +30,10 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 
-public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse, OAuth.OAuthResponse {
+public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse, OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse {
 
-    Button button1, button2;
+    Button button1, button2, button3, button4, button5;
+    String access_token = "";
 
     public static void log(String message) {
         Logger logger = Logger.getLogger("MyLog");
@@ -67,9 +68,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         button1.setOnClickListener(this);
         button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(this);
-
-        //myVersion = new Version(this);
-        //myVersion.execute();
+        button3 = (Button) findViewById(R.id.button3);
+        button3.setOnClickListener(this);
+        button4 = (Button) findViewById(R.id.button4);
+        button4.setOnClickListener(this);
+        button5 = (Button) findViewById(R.id.button5);
+        button5.setOnClickListener(this);
     }
 
     @Override
@@ -88,7 +92,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
 
                 OAuth o = new OAuth();
                 o.delegate = this;
-                String access_token = "";
                 try {
                     o.OAuthorizer(grantType, username, password, key, secret);
                     TextView1.setText("Pressed log in");
@@ -108,18 +111,41 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 myVersion.execute();
                 break;
 
+            case R.id.button3:
+                Account myAccount = new Account();
+                myAccount.delegate = this;
+                myAccount.execute(access_token);
+                break;
+
+            case R.id.button4:
+                RingOut myRingOut = new RingOut();
+                myRingOut.delegate = this;
+                myRingOut.execute(access_token);
+                break;
         }
     }
 
-    public void versionProcessFinish(String output) {
+    public void VersionProcessFinish(String output) {
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(output);
     }
 
     public void OAuthProcessFinish(String output) {
+        access_token = output;
+        TextView TextView1 = (TextView) findViewById(R.id.textView1);
+        TextView1.setText(access_token);
+    }
+
+    public void AccountProcessFinish(String output) {
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(output);
     }
+
+    public void RingOutProcessFinish(String output){
+        TextView TextView1 = (TextView) findViewById(R.id.textView1);
+        TextView1.setText(output);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

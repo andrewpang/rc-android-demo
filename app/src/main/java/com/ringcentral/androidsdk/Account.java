@@ -11,24 +11,23 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Created by andrew.pang on 6/17/15.
+ * Created by andrew.pang on 6/19/15.
  */
+public class Account extends AsyncTask<String, Void, String> {
 
-public class Version extends AsyncTask<Void, Void, String> {
-
-    public interface VersionResponse {
-        void VersionProcessFinish(String result);
+    public interface AccountResponse {
+        void AccountProcessFinish(String result);
     }
-    public VersionResponse delegate = null;
+    public AccountResponse delegate = null;
 
-    protected String doInBackground(Void... params) {
+    protected String doInBackground(String... params) {
         String responseString = "";
         HttpsURLConnection httpConn = null;
-        String url = "https://platform.devtest.ringcentral.com/restapi/";
+        String url = "https://platform.devtest.ringcentral.com/restapi/v1.0/account/~";
         try {
             URL request = new URL(url);
             httpConn = (HttpsURLConnection) request.openConnection();
-
+            httpConn.setRequestProperty("Authorization", "Bearer " + params[0]);
             int responseCode = httpConn.getResponseCode();
             if (responseCode == 200) {
                 responseString = readStream(httpConn.getInputStream());
@@ -74,11 +73,9 @@ public class Version extends AsyncTask<Void, Void, String> {
     }
 
     protected void onPostExecute(String result) {
-        delegate.VersionProcessFinish(result);
+        delegate.AccountProcessFinish(result);
     }
 
     protected void onProgressUpdate(String... progress) {
     }
-
 }
-
