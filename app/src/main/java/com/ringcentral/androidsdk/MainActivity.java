@@ -30,7 +30,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 
-public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse, OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse {
+public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse,
+        OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse, CallLog.CallLogResponse {
 
     Button button1, button2, button3, button4, button5;
     String access_token = "";
@@ -122,6 +123,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 myRingOut.delegate = this;
                 myRingOut.execute(access_token);
                 break;
+
+            case R.id.button5:
+                CallLog myCallLog = new CallLog();
+                myCallLog.delegate = this;
+                myCallLog.execute(access_token);
+                break;
         }
     }
 
@@ -142,6 +149,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
     }
 
     public void RingOutProcessFinish(String output){
+        TextView TextView1 = (TextView) findViewById(R.id.textView1);
+        TextView1.setText(output);
+    }
+
+    public void CallLogProcessFinish(String output){
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(output);
     }
