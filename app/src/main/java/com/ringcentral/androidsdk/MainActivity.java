@@ -33,9 +33,9 @@ import java.util.logging.SimpleFormatter;
 
 public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse,
         OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse, CallLog.CallLogResponse,
-        SMS.SMSResponse {
+        SMS.SMSResponse, MessageStore.MessageStoreResponse {
 
-    Button button1, button2, button3, button4, button5, button6;
+    Button button1, button2, button3, button4, button5, button6, button7;
     EditText fromText, toText, messageText;
     String access_token = "";
 
@@ -80,6 +80,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         button5.setOnClickListener(this);
         button6 = (Button) findViewById(R.id.button6);
         button6.setOnClickListener(this);
+        button7 = (Button) findViewById(R.id.button7);
+        button7.setOnClickListener(this);
         fromText = (EditText) findViewById(R.id.fromMessage);
         toText = (EditText) findViewById(R.id.toMessage);
         messageText = (EditText) findViewById(R.id.SMSMessage);
@@ -145,6 +147,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                         toText.getText().toString(), messageText.getText().toString()};
                 mySMS.execute(textStrings);
                 break;
+
+            case R.id.button7:
+                MessageStore myMessageStore = new MessageStore();
+                myMessageStore.delegate = this;
+                myMessageStore.execute(access_token);
+                break;
         }
     }
 
@@ -175,6 +183,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
     }
 
     public void SMSProcessFinish(String output){
+        TextView TextView1 = (TextView) findViewById(R.id.textView1);
+        TextView1.setText(output);
+    }
+
+    public void MessageStoreProcessFinish(String output){
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(output);
     }
