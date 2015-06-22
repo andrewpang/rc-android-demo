@@ -5,4 +5,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_display_call_log">DisplayCallLogActivity</string>
     <string name="title_activity_display_message_store">DisplayMessageStoreActivity</string>
+    <string name="title_activity_display_account">DisplayAccountActivity</string>
 </resources>

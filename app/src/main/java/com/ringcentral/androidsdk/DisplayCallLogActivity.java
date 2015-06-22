@@ -15,6 +15,7 @@ public class DisplayCallLogActivity extends Activity implements CallLog.CallLogR
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_call_log);
         Intent intent = getIntent();
         String access_token = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         CallLog myCallLog = new CallLog();
@@ -24,10 +25,8 @@ public class DisplayCallLogActivity extends Activity implements CallLog.CallLogR
     }
 
     public void CallLogProcessFinish(String output){
-        TextView textView = new TextView(this);
-        textView.setMovementMethod(new ScrollingMovementMethod());
-        textView.setText(output);
-        setContentView(textView);
+        TextView TextView1 = (TextView) findViewById(R.id.textView1);
+        TextView1.setText(output);
     }
 
     @Override

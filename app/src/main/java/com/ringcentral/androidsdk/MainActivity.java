@@ -33,7 +33,7 @@ import java.util.logging.SimpleFormatter;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse,
-        OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse,
+        OAuth.OAuthResponse, RingOut.RingOutResponse,
         SMS.SMSResponse {
 
     public final static String EXTRA_MESSAGE = "com.ringcentral.androidSDK.MESSAGE";
@@ -125,9 +125,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 break;
 
             case R.id.button3:
-                Account myAccount = new Account();
-                myAccount.delegate = this;
-                myAccount.execute(access_token);
+                Intent accountIntent = new Intent(this, DisplayAccountActivity.class);
+                accountIntent.putExtra(EXTRA_MESSAGE, access_token);
+                startActivity(accountIntent);
                 break;
 
             case R.id.button4:
@@ -153,9 +153,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
 
             case R.id.button7:
                 //Start a new activity for message store, and pass the access token to the new activity
-                Intent displayIntent = new Intent(this, DisplayMessageStoreActivity.class);
-                displayIntent.putExtra(EXTRA_MESSAGE, access_token);
-                startActivity(displayIntent);
+                Intent messageStoreIntent = new Intent(this, DisplayMessageStoreActivity.class);
+                messageStoreIntent.putExtra(EXTRA_MESSAGE, access_token);
+                startActivity(messageStoreIntent);
                 break;
         }
     }
@@ -169,11 +169,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         access_token = output;
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(access_token);
-    }
-
-    public void AccountProcessFinish(String output) {
-        TextView TextView1 = (TextView) findViewById(R.id.textView1);
-        TextView1.setText(output);
     }
 
     public void RingOutProcessFinish(String output){

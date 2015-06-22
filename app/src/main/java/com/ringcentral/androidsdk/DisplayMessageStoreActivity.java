@@ -15,6 +15,7 @@ public class DisplayMessageStoreActivity extends Activity implements MessageStor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_message_store);
         Intent intent = getIntent();
         String access_token = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         MessageStore myMessageStore = new MessageStore();
@@ -25,10 +26,8 @@ public class DisplayMessageStoreActivity extends Activity implements MessageStor
 
     //When async task is finished, this method is called and the output from the task is passed in
     public void MessageStoreProcessFinish(String output){
-        TextView textView = new TextView(this);
-        textView.setMovementMethod(new ScrollingMovementMethod());
-        textView.setText(output);
-        setContentView(textView);
+        TextView TextView1 = (TextView) findViewById(R.id.textView1);
+        TextView1.setText(output);
     }
 
     @Override
