@@ -25,6 +25,10 @@
             android:name=".DisplayCallLogActivity"
             android:label="@string/title_activity_display_call_log" >
         </activity>
+        <activity
+            android:name=".DisplayMessageStoreActivity"
+            android:label="@string/title_activity_display_message_store" >
+        </activity>
     </application>
 
 </manifest>

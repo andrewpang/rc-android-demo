@@ -34,7 +34,7 @@ import java.util.logging.SimpleFormatter;
 
 public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse,
         OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse,
-        SMS.SMSResponse, MessageStore.MessageStoreResponse {
+        SMS.SMSResponse {
 
     public final static String EXTRA_MESSAGE = "com.ringcentral.androidSDK.MESSAGE";
     Button button1, button2, button3, button4, button5, button6, button7;
@@ -137,9 +137,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 break;
 
             case R.id.button5:
-                Intent intent = new Intent(this, DisplayCallLogActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, access_token);
-                startActivity(intent);
+                //Start a new activity for call log, and pass the access token to the new activity
+                Intent callLogIntent = new Intent(this, DisplayCallLogActivity.class);
+                callLogIntent.putExtra(EXTRA_MESSAGE, access_token);
+                startActivity(callLogIntent);
                 break;
 
             case R.id.button6:
@@ -151,9 +152,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 break;
 
             case R.id.button7:
-                MessageStore myMessageStore = new MessageStore();
-                myMessageStore.delegate = this;
-                myMessageStore.execute(access_token);
+                //Start a new activity for message store, and pass the access token to the new activity
+                Intent displayIntent = new Intent(this, DisplayMessageStoreActivity.class);
+                displayIntent.putExtra(EXTRA_MESSAGE, access_token);
+                startActivity(displayIntent);
                 break;
         }
     }
@@ -184,14 +186,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         TextView1.setText(output);
     }
 
-    public void MessageStoreProcessFinish(String output){
-        TextView TextView1 = (TextView) findViewById(R.id.textView1);
-        TextView1.setText(output);
-    }
-
-//    public void callLog(View view){
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -10,20 +10,21 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
-public class DisplayCallLogActivity extends Activity implements CallLog.CallLogResponse {
+public class DisplayMessageStoreActivity extends Activity implements MessageStore.MessageStoreResponse {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String access_token = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        CallLog myCallLog = new CallLog();
-        myCallLog.delegate = this;
-        myCallLog.execute(access_token);
-
+        MessageStore myMessageStore = new MessageStore();
+        myMessageStore.delegate = this;
+        //Call the async task, passing in the access token as a parameter
+        myMessageStore.execute(access_token);
     }
 
-    public void CallLogProcessFinish(String output){
+    //When async task is finished, this method is called and the output from the task is passed in
+    public void MessageStoreProcessFinish(String output){
         TextView textView = new TextView(this);
         textView.setMovementMethod(new ScrollingMovementMethod());
         textView.setText(output);
