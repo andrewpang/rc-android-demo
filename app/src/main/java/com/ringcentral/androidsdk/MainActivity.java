@@ -1,6 +1,7 @@
 package com.ringcentral.androidsdk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -32,9 +33,10 @@ import java.util.logging.SimpleFormatter;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse,
-        OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse, CallLog.CallLogResponse,
+        OAuth.OAuthResponse, Account.AccountResponse, RingOut.RingOutResponse,
         SMS.SMSResponse, MessageStore.MessageStoreResponse {
 
+    public final static String EXTRA_MESSAGE = "com.ringcentral.androidSDK.MESSAGE";
     Button button1, button2, button3, button4, button5, button6, button7;
     EditText fromText, toText, messageText;
     String access_token = "";
@@ -135,9 +137,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 break;
 
             case R.id.button5:
-                CallLog myCallLog = new CallLog();
-                myCallLog.delegate = this;
-                myCallLog.execute(access_token);
+                Intent intent = new Intent(this, DisplayCallLogActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, access_token);
+                startActivity(intent);
                 break;
 
             case R.id.button6:
@@ -177,11 +179,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         TextView1.setText(output);
     }
 
-    public void CallLogProcessFinish(String output){
-        TextView TextView1 = (TextView) findViewById(R.id.textView1);
-        TextView1.setText(output);
-    }
-
     public void SMSProcessFinish(String output){
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(output);
@@ -191,6 +188,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(output);
     }
+
+//    public void callLog(View view){
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

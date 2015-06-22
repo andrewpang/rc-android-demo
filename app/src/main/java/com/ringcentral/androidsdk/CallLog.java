@@ -52,7 +52,7 @@ public class CallLog extends AsyncTask<String, Void, String> {
             Date date = new Date();
             output = "--------------"+date+"-------------------\n";
             output = output+ json;
-            System.out.println("Call-log : "+ json);
+            //System.out.println("Call-log : "+ json);
 
         } catch (java.io.IOException e) {
             output = output+ e.getMessage();
