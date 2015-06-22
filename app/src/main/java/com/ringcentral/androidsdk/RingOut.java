@@ -23,10 +23,14 @@ public class RingOut extends AsyncTask<String, Void, String> {
 
     protected String doInBackground(String... params) {
         String accessToken = params[0];
+        String fromNumber = params[1];
+        String toNumber = params[2];
+        String callerId = params[3];
+        String playPrompt = params[4];
         String url = "https://platform.devtest.ringcentral.com/restapi/v1.0/account/~/extension/~/ringout";
         HttpsURLConnection httpConn = null;
         BufferedReader in = null;
-        String payload = "{\r\n  \"to\": {\"phoneNumber\": \"16502823614\"},\r\n  \"from\": {\"phoneNumber\": \"15106907982\"},\r\n  \"callerId\": {\"phoneNumber\": \"15856234166\"},\r\n  \"playPrompt\": false\r\n}";
+        String payload = "{\r\n  \"to\": {\"phoneNumber\": \"" + toNumber + "\"},\r\n  \"from\": {\"phoneNumber\": \"" + fromNumber + "\"},\r\n  \"callerId\": {\"phoneNumber\": \"" + callerId + "\"},\r\n  \"playPrompt\": " + playPrompt + "\r\n}";
 
         String ringOutId="";
         try {

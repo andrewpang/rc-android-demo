@@ -3,7 +3,6 @@ package com.ringcentral.androidsdk;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,29 +15,13 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
-
-import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-
 
 public class MainActivity extends Activity implements View.OnClickListener, Version.VersionResponse,
-        OAuth.OAuthResponse, RingOut.RingOutResponse,
+        OAuth.OAuthResponse,
         SMS.SMSResponse {
 
     public final static String EXTRA_MESSAGE = "com.ringcentral.androidSDK.MESSAGE";
     Button button1, button2, button3, button4, button5, button6, button7;
-    EditText fromText, toText, messageText;
     String access_token = "";
 
     public static void log(String message) {
@@ -84,9 +67,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         button6.setOnClickListener(this);
         button7 = (Button) findViewById(R.id.button7);
         button7.setOnClickListener(this);
-        fromText = (EditText) findViewById(R.id.fromMessage);
-        toText = (EditText) findViewById(R.id.toMessage);
-        messageText = (EditText) findViewById(R.id.SMSMessage);
     }
 
     @Override
@@ -131,9 +111,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 break;
 
             case R.id.button4:
-                RingOut myRingOut = new RingOut();
-                myRingOut.delegate = this;
-                myRingOut.execute(access_token);
+                Intent ringOutIntent = new Intent(this, DisplayRingOutActivity.class);
+                ringOutIntent.putExtra(EXTRA_MESSAGE, access_token);
+                startActivity(ringOutIntent);
                 break;
 
             case R.id.button5:
@@ -144,11 +124,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 break;
 
             case R.id.button6:
-                SMS mySMS = new SMS();
-                mySMS.delegate = this;
-                String[] textStrings = {access_token, fromText.getText().toString(),
-                        toText.getText().toString(), messageText.getText().toString()};
-                mySMS.execute(textStrings);
+                Intent SMSIntent = new Intent(this, DisplaySMSActivity.class);
+                SMSIntent.putExtra(EXTRA_MESSAGE, access_token);
+                startActivity(SMSIntent);
                 break;
 
             case R.id.button7:
@@ -169,11 +147,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         access_token = output;
         TextView TextView1 = (TextView) findViewById(R.id.textView1);
         TextView1.setText(access_token);
-    }
-
-    public void RingOutProcessFinish(String output){
-        TextView TextView1 = (TextView) findViewById(R.id.textView1);
-        TextView1.setText(output);
     }
 
     public void SMSProcessFinish(String output){

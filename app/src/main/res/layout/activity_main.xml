@@ -21,13 +21,6 @@
         android:layout_toRightOf="@+id/button5" />
     <Button android:id="@+id/button7" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:text="Msg Store" android:layout_below="@+id/button4" />
-    <EditText android:id="@+id/fromMessage" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:hint="From" android:layout_below="@+id/button7" />
-    <EditText android:id="@+id/toMessage" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="To" android:layout_below="@+id/fromMessage" />
-    <EditText android:id="@+id/SMSMessage" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="Message" android:layout_below="@+id/toMessage" />
-
     <TextView android:id="@+id/textView1" android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_below="@+id/SMSMessage" />
+        android:layout_height="wrap_content" android:layout_below="@+id/button7" />
 </RelativeLayout>

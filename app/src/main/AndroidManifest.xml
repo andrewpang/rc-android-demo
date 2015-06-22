@@ -33,6 +33,14 @@
             android:name=".DisplayAccountActivity"
             android:label="@string/title_activity_display_account" >
         </activity>
+        <activity
+            android:name=".DisplayRingOutActivity"
+            android:label="@string/title_activity_ring_out" >
+        </activity>
+        <activity
+            android:name=".DisplaySMSActivity"
+            android:label="@string/title_activity_display_sms" >
+        </activity>
     </application>
 
 </manifest>
