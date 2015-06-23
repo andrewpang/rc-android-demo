@@ -21,7 +21,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         SMS.SMSResponse {
 
     public final static String EXTRA_MESSAGE = "com.ringcentral.androidSDK.MESSAGE";
-    Button button1, button2, button3, button4, button5, button6, button7, button8;
+    Button button1, button2, button3, button4, button5, button6, button7, button8, button9;
     String access_token = "";
 
     public static void log(String message) {
@@ -69,6 +69,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         button7.setOnClickListener(this);
         button8  = (Button) findViewById(R.id.button8);
         button8.setOnClickListener(this);
+        button9  = (Button) findViewById(R.id.button9);
+        button9.setOnClickListener(this);
     }
 
     @Override
@@ -154,6 +156,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                     e.printStackTrace();
                     TextView2.setText("Error");
                 }
+                break;
+
+            case R.id.button9:
+                //Start a new activity for message store, and pass the access token to the new activity
+                Intent deleteMessageIntent = new Intent(this, DisplayDeleteMessageActivity.class);
+                deleteMessageIntent.putExtra(EXTRA_MESSAGE, access_token);
+                startActivity(deleteMessageIntent);
+                break;
 
         }
     }

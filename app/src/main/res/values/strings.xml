@@ -8,4 +8,5 @@
     <string name="title_activity_display_account">DisplayAccountActivity</string>
     <string name="title_activity_ring_out">RingOutActivity</string>
     <string name="title_activity_display_sms">DisplaySMSActivity</string>
+    <string name="title_activity_display_delete_message">DisplayDeleteMessageActivity</string>
 </resources>

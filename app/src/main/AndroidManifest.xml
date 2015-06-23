@@ -41,6 +41,10 @@
             android:name=".DisplaySMSActivity"
             android:label="@string/title_activity_display_sms" >
         </activity>
+        <activity
+            android:name=".DisplayDeleteMessageActivity"
+            android:label="@string/title_activity_display_delete_message" >
+        </activity>
     </application>
 
 </manifest>

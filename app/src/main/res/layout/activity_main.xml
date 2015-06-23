@@ -23,6 +23,8 @@
         android:layout_width="wrap_content" android:text="Msg Store" android:layout_below="@+id/button4" />
     <Button android:id="@+id/button8" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:text="Revoke" android:layout_below="@+id/button5" android:layout_toRightOf="@+id/button7" />
+    <Button android:id="@+id/button9" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:text="Delete Msg" android:layout_below="@+id/button5" android:layout_toRightOf="@+id/button8" />
     <TextView android:id="@+id/textView1" android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_below="@+id/button7" />
 </RelativeLayout>

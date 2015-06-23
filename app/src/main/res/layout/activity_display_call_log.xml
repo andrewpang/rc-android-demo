@@ -6,12 +6,19 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.ringcentral.androidsdk.DisplayCallLogActivity">
 
+    <Button android:id="@+id/button1" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:text="Get Logs"  />
+    <Button android:id="@+id/button2" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:text="Get Record" android:layout_toRightOf="@+id/button1" />
+    <Button android:id="@+id/button3" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:text="Active Calls" android:layout_toRightOf="@+id/button2" />
+    <EditText
+        android:id="@+id/callRecordID" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Call Record ID" android:layout_below="@id/button1"/>
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        >
-    <TextView android:id="@+id/textView1" android:text="@string/hello_world" android:layout_width="wrap_content"
+        android:layout_height="fill_parent" android:layout_below="@+id/callRecordID" >
+        <TextView android:id="@+id/textView1" android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
     </ScrollView>
 </RelativeLayout>
