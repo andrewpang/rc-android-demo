@@ -19,7 +19,7 @@ public class DisplayAccountActivity extends Activity implements Account.AccountR
             String access_token = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
             Account myAccount = new Account();
             myAccount.delegate = this;
-            myAccount.execute(access_token);
+            myAccount.getAccountInfo(access_token);
             }
 
     public void AccountProcessFinish(String output){
