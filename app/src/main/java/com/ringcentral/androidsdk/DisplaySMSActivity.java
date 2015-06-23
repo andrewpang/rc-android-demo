@@ -32,6 +32,11 @@ public class DisplaySMSActivity extends Activity implements View.OnClickListener
         toText = (EditText) findViewById(R.id.toMessage);
         SMSText = (EditText) findViewById(R.id.SMSMessage);
 
+        //Hard code
+        fromText.setText("15856234166");
+        toText.setText("15106907982");
+        SMSText.setText("Sample text, this is a test mayne.");
+
     }
 
 

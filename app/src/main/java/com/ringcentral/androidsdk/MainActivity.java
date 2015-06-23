@@ -21,7 +21,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         SMS.SMSResponse {
 
     public final static String EXTRA_MESSAGE = "com.ringcentral.androidSDK.MESSAGE";
-    Button button1, button2, button3, button4, button5, button6, button7;
+    Button button1, button2, button3, button4, button5, button6, button7, button8;
     String access_token = "";
 
     public static void log(String message) {
@@ -67,6 +67,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
         button6.setOnClickListener(this);
         button7 = (Button) findViewById(R.id.button7);
         button7.setOnClickListener(this);
+        button8  = (Button) findViewById(R.id.button8);
+        button8.setOnClickListener(this);
     }
 
     @Override
@@ -135,6 +137,24 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 messageStoreIntent.putExtra(EXTRA_MESSAGE, access_token);
                 startActivity(messageStoreIntent);
                 break;
+
+            case R.id.button8:
+                TextView TextView2 = (TextView) findViewById(R.id.textView1);
+
+                //Hard code
+                String key1 = "xhK3uzISTEaEYhFAtadVug";
+                String secret1 = "1YRoPu64TeCOe_ZJy3ggLwGg-QDQd6QaWpSyIT8AxmjA";
+
+                OAuth j = new OAuth();
+                j.delegate = this;
+                try {
+                    j.Revoke(key1, secret1, access_token);
+                    TextView2.setText("Token Revoked");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    TextView2.setText("Error");
+                }
+
         }
     }
 

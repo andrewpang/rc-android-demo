@@ -24,14 +24,21 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class OAuth {
 
+    //public String encodedBasic;
+
     public interface OAuthResponse {
         void OAuthProcessFinish(String result);
     }
     public OAuthResponse delegate = null;
 
-    public void OAuthorizer(String grantType, String username, String password, String key, String secret) throws Exception {
+    public void OAuthorizer(String grantType, String username, String password, String key, String secret) {
         String[] myTaskParams = {grantType, username, password, key, secret};
         new MyAsyncTask().execute(myTaskParams);
+    }
+
+    public void Revoke(String key, String secret, String token){
+        String[] revokeParams = {key, secret, token};
+        new RevokeAsyncTask().execute(revokeParams);
     }
 
     public class MyAsyncTask extends AsyncTask<String, Void, String> {
@@ -101,6 +108,78 @@ public class OAuth {
             Log.d("AccessToken", accessToken);
             return accessToken;
 
+        }
+        protected void onPostExecute(String result) {
+            delegate.OAuthProcessFinish(result);
+        }
+
+        protected void onProgressUpdate(String... progress) {
+        }
+    }
+
+    public class RevokeAsyncTask extends AsyncTask<String, Void, Void> {
+        //@Override
+        protected Void doInBackground(String... params) {
+            String key = params[0];
+            String secret = params[1];
+            String token = params[2];
+
+            String url = "https://platform.devtest.ringcentral.com/restapi/oauth/revoke";
+
+            String keySec = key + ":" + secret;
+            byte[] message = new byte[0];
+            try {
+                message = keySec.getBytes("UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            String encoded = Base64.encodeToString(message, Base64.DEFAULT);
+            String encodedBasic = ("Basic " + encoded).replace("\n", "");
+            BufferedReader in = null;
+            HttpsURLConnection httpConn = null;
+
+            try {
+                StringBuilder data = new StringBuilder();
+                data.append("token=");
+                data.append(URLEncoder.encode(token, "UTF-8"));
+                byte[] byteArray = data.toString().getBytes("UTF-8");
+                URL request = new URL(url);
+                httpConn = (HttpsURLConnection) request.openConnection();
+                httpConn.setRequestMethod("POST");
+                httpConn.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                httpConn.setRequestProperty(
+                        "Authorization",
+                        encodedBasic);
+                httpConn.setDoOutput(true);
+                OutputStream postStream = httpConn.getOutputStream();
+                postStream.write(byteArray, 0, byteArray.length);
+                postStream.close();
+                int code = httpConn.getResponseCode();
+                System.out.println(code);
+//                InputStreamReader reader = new InputStreamReader(
+//                        httpConn.getInputStream());
+//                in = new BufferedReader(reader);
+//                StringBuffer content = new StringBuffer();
+//                String line;
+//                while ((line = in.readLine()) != null) {
+//                    content.append(line + "\n");
+//                }
+//                in.close();
+//                String json = content.toString();
+//                Gson gson = new Gson();
+//                Type mapType = new TypeToken<Map<String, String>>() {
+//                }.getType();
+//                Map<String, String> ser = gson.fromJson(json, mapType);
+//                accessToken = ser.get("access_token");
+
+            } catch (java.io.IOException e) {
+                System.out.println(e.getMessage());
+            } finally {
+                if (httpConn != null)
+                    httpConn.disconnect();
+            }
+        return null;
         }
 
 
