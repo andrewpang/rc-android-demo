@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 
 public class DisplayAccountActivity extends Activity implements Account.AccountResponse {
 
@@ -19,7 +21,12 @@ public class DisplayAccountActivity extends Activity implements Account.AccountR
             String access_token = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
             Account myAccount = new Account();
             myAccount.delegate = this;
-            myAccount.getAccountInfo(access_token);
+
+            HashMap<String, String> parameters = new HashMap<>();
+            parameters.put("access_token", access_token);
+            parameters.put("accountId", "~");
+        parameters.put("responseType", "account");
+        myAccount.getAccountInfo(parameters);
             }
 
     public void AccountProcessFinish(String output){
