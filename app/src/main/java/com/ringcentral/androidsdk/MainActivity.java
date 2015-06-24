@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -87,10 +89,18 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 String key = "xhK3uzISTEaEYhFAtadVug";
                 String secret = "1YRoPu64TeCOe_ZJy3ggLwGg-QDQd6QaWpSyIT8AxmjA";
 
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("grantType", grantType);
+                params.put("username", username);
+                params.put("password", password);
+                params.put("key", key);
+                params.put("secret", secret);
+
                 OAuth o = new OAuth();
                 o.delegate = this;
                 try {
-                    o.OAuthorizer(grantType, username, password, key, secret);
+                    //o.OAuthorizer(grantType, username, password, key, secret);
+                    o.OAuthorizer(params);
                     TextView1.setText("Pressed log in");
                 } catch (Exception e) {
                     e.printStackTrace();

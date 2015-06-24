@@ -31,9 +31,10 @@ public class OAuth {
     }
     public OAuthResponse delegate = null;
 
-    public void OAuthorizer(String grantType, String username, String password, String key, String secret) {
-        String[] myTaskParams = {grantType, username, password, key, secret};
-        new MyAsyncTask().execute(myTaskParams);
+    public void OAuthorizer(Map<String, String> parameters) {
+
+        //String[] myTaskParams = {grantType, username, password, key, secret};
+        new MyAsyncTask().execute(parameters);
     }
 
     public void Revoke(String key, String secret, String token){
@@ -41,14 +42,20 @@ public class OAuth {
         new RevokeAsyncTask().execute(revokeParams);
     }
 
-    public class MyAsyncTask extends AsyncTask<String, Void, String> {
+    public class MyAsyncTask extends AsyncTask<Object, Void, String> {
         //@Override
-        protected String doInBackground(String... params) {
-            String grantType = params[0];
-            String username = params[1];
-            String password = params[2];
-            String key = params[3];
-            String secret = params[4];
+        protected String doInBackground(Object... params) {
+//            String grantType = params[0];
+//            String username = params[1];
+//            String password = params[2];
+//            String key = params[3];
+//            String secret = params[4];
+            Map<String, String> parameters = (Map) params[0];
+            String grantType = parameters.get("grantType");
+            String username = parameters.get("username");
+            String password = parameters.get("password");
+            String key = parameters.get("key");
+            String secret = parameters.get("secret");
 
             String url = "https://platform.devtest.ringcentral.com/restapi/oauth/token";
             String accessToken = "";
