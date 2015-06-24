@@ -156,11 +156,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Vers
                 //Hard code
                 String key1 = "xhK3uzISTEaEYhFAtadVug";
                 String secret1 = "1YRoPu64TeCOe_ZJy3ggLwGg-QDQd6QaWpSyIT8AxmjA";
+                HashMap<String, String> parameters = new HashMap<String, String>();
+                parameters.put("app_key", key1);
+                parameters.put("app_secret", secret1);
+                parameters.put("token", access_token);
 
                 OAuth j = new OAuth();
                 j.delegate = this;
                 try {
-                    j.Revoke(key1, secret1, access_token);
+                    j.Revoke(parameters);
                     TextView2.setText("Token Revoked");
                 } catch (Exception e) {
                     e.printStackTrace();

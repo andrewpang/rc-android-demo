@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -39,15 +40,14 @@ public class OAuth {
         new MyAsyncTask().execute(parameters);
     }
 
-    public void Revoke(String key, String secret, String token){
-        String[] revokeParams = {key, secret, token};
-        new RevokeAsyncTask().execute(revokeParams);
+    public void Revoke(Map<String, String> parameters){
+        new RevokeAsyncTask().execute(parameters);
     }
 
     public class MyAsyncTask extends AsyncTask<Object, Void, String> {
         //@Override
         protected String doInBackground(Object... params) {
-            Map<String, String> parameters = (Map) params[0];
+            HashMap<String, String> parameters = (HashMap) params[0];
             String grant_type = parameters.get("grant_type");
             String username = parameters.get("username");
             String password = parameters.get("password");
@@ -140,12 +140,13 @@ public class OAuth {
                 in.close();
                 String json = content.toString();
                 //Return whole json body
-                responseBody = json;
-//                Gson gson = new Gson();
-//                Type mapType = new TypeToken<Map<String, String>>() {}.getType();
-//                Map<String, String> ser = gson.fromJson(json, mapType);
-//                responseBody = ser.get("error");
-
+                Gson gson = new Gson();
+                Type mapType = new TypeToken<Map<String, String>>() {}.getType();
+                Map<String, String> ser = gson.fromJson(json, mapType);
+                if(responseCode == 200)
+                    responseBody = ser.get("access_token");
+                else
+                    responseBody = ser.get("error");
                 } catch (MalformedURLException e1) {
                 e1.printStackTrace();
             } catch (ProtocolException e1) {
@@ -169,12 +170,13 @@ public class OAuth {
         }
     }
 
-    public class RevokeAsyncTask extends AsyncTask<String, Void, Void> {
+    public class RevokeAsyncTask extends AsyncTask<Object, Void, Void> {
         //@Override
-        protected Void doInBackground(String... params) {
-            String key = params[0];
-            String secret = params[1];
-            String token = params[2];
+        protected Void doInBackground(Object... params) {
+            HashMap<String, String> parameters = (HashMap) params[0];
+            String key = parameters.get("app_key");
+            String secret = parameters.get("app_secret");
+            String token = parameters.get("token");
 
             String url = "https://platform.devtest.ringcentral.com/restapi/oauth/revoke";
 
