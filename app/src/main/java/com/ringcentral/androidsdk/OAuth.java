@@ -8,10 +8,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -32,8 +36,6 @@ public class OAuth {
     public OAuthResponse delegate = null;
 
     public void OAuthorizer(Map<String, String> parameters) {
-
-        //String[] myTaskParams = {grantType, username, password, key, secret};
         new MyAsyncTask().execute(parameters);
     }
 
@@ -45,20 +47,36 @@ public class OAuth {
     public class MyAsyncTask extends AsyncTask<Object, Void, String> {
         //@Override
         protected String doInBackground(Object... params) {
-//            String grantType = params[0];
-//            String username = params[1];
-//            String password = params[2];
-//            String key = params[3];
-//            String secret = params[4];
             Map<String, String> parameters = (Map) params[0];
-            String grantType = parameters.get("grantType");
+            String grant_type = parameters.get("grant_type");
             String username = parameters.get("username");
             String password = parameters.get("password");
             String key = parameters.get("key");
             String secret = parameters.get("secret");
+            //Optional parameters
+            String extension = "";
+            String access_token_ttl = "";
+            String refresh_token_ttl = "";
+            String scope = "";
+            String refresh_token = "";
+            if(parameters.containsKey("extension")) {
+                extension = parameters.get("extension");
+            }
+            if(parameters.containsKey("access_token_ttl")) {
+                access_token_ttl = parameters.get("access_token_ttl");
+            }
+            if(parameters.containsKey("refresh_token_ttl")) {
+                refresh_token_ttl = parameters.get("refresh_token_ttl");
+            }
+            if(parameters.containsKey("scope")) {
+                scope = parameters.get("scope");
+            }
+            if(parameters.containsKey("refresh_token")) {
+                refresh_token = parameters.get("refresh_token");
+            }
 
             String url = "https://platform.devtest.ringcentral.com/restapi/oauth/token";
-            String accessToken = "";
+            String responseBody = "";
             String keySec = key + ":" + secret;
             byte[] message = new byte[0];
             try {
@@ -73,9 +91,24 @@ public class OAuth {
 
             try {
                 StringBuilder data = new StringBuilder();
-                data.append("grant_type=" + URLEncoder.encode(grantType, "UTF-8"));
+                data.append("grant_type=" + URLEncoder.encode(grant_type, "UTF-8"));
                 data.append("&username=" + URLEncoder.encode(username, "UTF-8"));
                 data.append("&password=" + URLEncoder.encode(password, "UTF-8"));
+                if(!(extension.equals(""))){
+                    data.append("&extension=" + URLEncoder.encode(extension, "UTF-8"));
+                }
+                if(!(access_token_ttl.equals(""))){
+                    data.append("&access_token_ttl=" + URLEncoder.encode(access_token_ttl, "UTF-8"));
+                }
+                if(!(refresh_token_ttl.equals(""))){
+                    data.append("&refresh_token_ttl=" + URLEncoder.encode(refresh_token_ttl, "UTF-8"));
+                }
+                if(!(scope.equals(""))){
+                    data.append("&scope=" + URLEncoder.encode(scope, "UTF-8"));
+                }
+                if(!(refresh_token.equals(""))){
+                    data.append("&refresh_token=" + URLEncoder.encode(refresh_token, "UTF-8"));
+                }
                 byte[] byteArray = data.toString().getBytes("UTF-8");
                 URL request = new URL(url);
                 httpConn = (HttpsURLConnection) request.openConnection();
@@ -89,8 +122,15 @@ public class OAuth {
                 OutputStream postStream = httpConn.getOutputStream();
                 postStream.write(byteArray, 0, byteArray.length);
                 postStream.close();
-                InputStreamReader reader = new InputStreamReader(
-                        httpConn.getInputStream());
+
+                int responseCode = httpConn.getResponseCode();
+                InputStream stream = null;
+                if(responseCode == 200) {
+                    stream = httpConn.getInputStream();
+                } else {
+                    stream = httpConn.getErrorStream();
+                }
+                InputStreamReader reader = new InputStreamReader(stream);
                 in = new BufferedReader(reader);
                 StringBuffer content = new StringBuffer();
                 String line;
@@ -98,22 +138,27 @@ public class OAuth {
                     content.append(line + "\n");
                 }
                 in.close();
-
                 String json = content.toString();
-                Gson gson = new Gson();
-                Type mapType = new TypeToken<Map<String, String>>() {
-                }.getType();
-                Map<String, String> ser = gson.fromJson(json, mapType);
-                accessToken = ser.get("access_token");
+                //Return whole json body
+                responseBody = json;
+//                Gson gson = new Gson();
+//                Type mapType = new TypeToken<Map<String, String>>() {}.getType();
+//                Map<String, String> ser = gson.fromJson(json, mapType);
+//                responseBody = ser.get("error");
 
-            } catch (java.io.IOException e) {
-                System.out.println(e.getMessage());
+                } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (ProtocolException e1) {
+                e1.printStackTrace();
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             } finally {
                 if (httpConn != null)
                   httpConn.disconnect();
             }
-            Log.d("AccessToken", accessToken);
-            return accessToken;
+            return responseBody;
 
         }
         protected void onPostExecute(String result) {
